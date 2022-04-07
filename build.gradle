@@ -3,11 +3,15 @@ plugins {
     id "io.spring.dependency-management" version "1.0.11.RELEASE"
     id "checkstyle"
     id "java"
+
+    // docker-spring-boot插件
+    id 'com.bmuschko.docker-spring-boot-application' version '6.6.1'
 }
 
 group = "run.halo.app"
 description = "Halo, An excellent open source blog publishing application."
 sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
 
 checkstyle {
     toolVersion = "8.39"
@@ -150,4 +154,24 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+// docker构建配置
+docker {
+    springBootApplication {
+        baseImage = 'openjdk:11.0-jdk' // 用于Spring Boot应用程序的Docker基本映像。
+        maintainer = 'fgw' // 镜像维护者
+        ports = [8081] // 暴露的端口
+        // 镜像名称和版本
+        images = ["${project.group}/${rootProject.name}:${project.version}",
+                  "${project.group}/${rootProject.name}:latest"]
+        // 传递给java命令的JVM参数。
+        jvmArgs = ["-Djava.security.egd=file:/dev/./urandom", '-Xmx2048m']
+        // 用于启动应用程序的主类名称。如果您的源代码包含多个主类文件，则为此选项设置一个显式值很有用。
+        // mainClassName = 默认通过扫描类路径发现的唯一主类名称
+    }
+    // 如果url不指定的话
+    // Unix系统默认：unix:///var/run/docker.sock
+    // Windows系统默认：tcp://127.0.0.1:2375。
+    url = 'https://120.76.197.4:2375'
 }
