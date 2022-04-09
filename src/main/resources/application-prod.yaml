@@ -19,7 +19,7 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
 
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://120.76.197.4:27081/halo?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://127.0.0.1:27081/halo?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
     password: docker-mysql-pwd666...
   jpa:
